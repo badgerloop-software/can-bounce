@@ -3,8 +3,12 @@
 #define DEVICE_MASTER 0
 
 // Define CAN pins
+// Assuming F767ZI will be master
+#if DEVICE_MASTER
+CAN canBus(PD_0, PD_1);
+#else
 CAN canBus(PA_11, PA_12);
-
+#endif
 
 // main() runs in its own thread in the OS
 int main()
@@ -20,7 +24,7 @@ int main()
         canBus.write(CANMessage(0, &mes, 1));
         printf("Master has sent first message\n");
         #else
-        char mes = 0;
+        char mes = 5;
         printf("Slave is waiting for message\n");
         #endif
 
