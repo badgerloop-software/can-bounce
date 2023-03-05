@@ -1,26 +1,20 @@
 #include "mbed.h"
 
-CAN canBus(PA_11, PA_12);
+CAN canBus(PD_0, PD_1);
 
 // main() runs in its own thread in the OS
 int main()
 {
     CANMessage msg;
     canBus.frequency(115200);
-    char mes = 255;
-    wait_us(1000000);
     while (true) {
-        if (!canBus.write(CANMessage(0, &mes, 1))) {
-            printf("Unsuccessful sending message!\n");
-        } else {
-            mes--;
-            printf("Sent successfully\n");
+        if(canBus.read(msg)) {
+            printf("Message received: %d\n", msg.data[0]);
         }
-        wait_us(1000000);
 
-        if (canBus.tderror()) {
-            printf("Transmit error detected, resetting CAN...\n");
+        if (canBus.tderror() | canBus.rderror()) {
             canBus.reset();
         }
+        wait_us(1000000);
     }
 }
