@@ -14,7 +14,7 @@ int main()
 
         if (canBus.tderror() | canBus.rderror()) {
             canBus.reset();
+            wait_us(1000);
         }
-        wait_us(1000000);
     }
 }
