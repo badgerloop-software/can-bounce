@@ -21,6 +21,7 @@ int main()
         if (canBus.tderror()) {
             printf("Transmit error detected, resetting CAN...\n");
             canBus.reset();
+            wait_us(1000);
         }
     }
 }
