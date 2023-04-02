@@ -14,17 +14,16 @@ CAN canBus(PA_11, PA_12);
 int main()
 {
     CANMessage msg;
-    canBus.frequency(115200);
-
+    canBus.frequency(500000);
 
     while (true) {
         #if DEVICE_MASTER
-        wait_us(1000000);
         char mes = 255;
+        wait_us(1000000);
         canBus.write(CANMessage(0, &mes, 1));
         printf("Master has sent first message\n");
         #else
-        char mes = 5;
+        char mes = 255;
         printf("Slave is waiting for message\n");
         #endif
 
@@ -42,6 +41,7 @@ int main()
             if (canBus.tderror()) {
                 printf("Transmit error detected, resetting CAN...\n");
                 canBus.reset();
+                wait_us(1000);
                 break;
             }
         }
