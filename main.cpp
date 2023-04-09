@@ -1,12 +1,12 @@
 #include "mbed.h"
 
-CAN canBus(PA_11, PA_12);
+CAN canBus(PD_0, PD_1);
 
 // main() runs in its own thread in the OS
 int main()
 {
     CANMessage msg;
-    canBus.frequency(115200);
+    canBus.frequency(500000);
     char mes = 255;
     wait_us(1000000);
     while (true) {
