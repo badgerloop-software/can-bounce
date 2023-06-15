@@ -6,7 +6,7 @@ CAN canBus(PD_0, PD_1);
 int main()
 {
     CANMessage msg;
-    canBus.frequency(115200);
+    canBus.frequency(500000);
     while (true) {
         if(canBus.read(msg)) {
             printf("Message received: %d\n", msg.data[0]);
