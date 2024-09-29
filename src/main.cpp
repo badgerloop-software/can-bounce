@@ -7,11 +7,16 @@ CAN_message_t msg;
 
 void setup() {
   canBus.setBaudRate(500000);
+  msg.buf[0] = 255;
+  msg.id = 0x100;
 }
 
 void loop() {
   delay(1000);
-  if (canBus.read(msg)) {
-    printf("Message received: %x | %d\n", msg.id, msg.buf[0]);
+  if (canBus.write(msg)) {
+    printf("Unsuccessful message sending\n");
+  } else {
+    msg.buf[0]--;
+    printf("Successful send\n");
   }
 }
