@@ -9,6 +9,7 @@ void setup() {
   canBus.setBaudRate(500000);
   msg.buf[0] = 255;
   msg.id = 0x100;
+  canBus.begin();
 }
 
 void loop() {
