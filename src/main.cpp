@@ -1,18 +1,17 @@
 #include <Arduino.h>
+#include "STM32_CAN.h"
 
-// put function declarations here:
-int myFunction(int, int);
+STM32_CAN canBus( CAN1, ALT_2 );
+
+CAN_message_t msg;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  canBus.setBaudRate(500000);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  delay(1000);
+  if (canBus.read(msg)) {
+    printf("Message received: %x | %d\n", msg.id, msg.buf[0]);
+  }
 }
