@@ -1,18 +1,17 @@
 #include <Arduino.h>
+#include "STM32_CAN.h"
+#include "canmanager.h"
 
-// put function declarations here:
-int myFunction(int, int);
+// STM32_CAN canBus( CAN1, ALT_2 );
+CANManager canBus(CAN1, ALT_2);
+
+CAN_message_t msg;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(9600);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  Serial.println("hey");
+  delay(1000);
 }
