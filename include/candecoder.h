@@ -2,13 +2,13 @@
  
 class CANDecoder : public CANManager {
    public:
-
-      CANDecoder(PinName rd, PinName td, int frequency = DEFAULT_CAN_FREQ);
+   
+      CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency = DEFAULT_CAN_FREQ);
 
       /* Reads input message and does any logic handling needed
        * Intended to be implemented by class extension per board
        */
-      virtual void readHandler(CAN_data msg) = 0;
+      void readHandler(CAN_data msg);
 
       /* Send a message over CAN
        *
@@ -17,5 +17,5 @@ class CANDecoder : public CANManager {
        * length: Size of data in bytes
        * timeout: in milliseconds
        */ 
-      int sendSignal();
+      void sendSignal();
 };

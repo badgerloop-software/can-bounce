@@ -1,11 +1,13 @@
 #include <Arduino.h>
 #include "STM32_CAN.h"
-#include "canmanager.h"
+#include "candecoder.h"
 
-// STM32_CAN canBus( CAN1, ALT_2 );
-CANManager canBus(CAN1, ALT_2);
+CANDecoder candecoder(CAN1, ALT_2);
 
-CAN_message_t msg;
+extern uint8_t int8Received;
+extern uint16_t int16Received;
+extern float floatReceived;
+extern bool boolReceived;
 
 void setup() {
   Serial.begin(9600);
@@ -13,5 +15,12 @@ void setup() {
 
 void loop() {
   Serial.println("hey");
-  delay(1000);
+
+  candecoder.sendSignal();
+  candecoder.runQueue(1000);
+
+  Serial.println(int8Received);
+  Serial.println(int16Received);
+  Serial.println(floatReceived);
+  Serial.println(boolReceived);
 }
