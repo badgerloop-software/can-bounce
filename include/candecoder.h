@@ -10,12 +10,7 @@ class CANDecoder : public CANManager {
        */
       void readHandler(CAN_message_t msg);
 
-      /* Send a message over CAN
-       *
-       * messageID: CAN ID to use to identify the signal
-       * data: Payload array
-       * length: Size of data in bytes
-       * timeout: in milliseconds
+      /* Send all of this board's message over CAN
        */ 
       void sendSignal();
 };

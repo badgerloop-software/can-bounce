@@ -25,7 +25,7 @@ bool boolReceived;
 
 int numMessagesReceived[4] = {0,0,0,0};
 
-CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency /*=DEFAULT_CAN_FREQ*/) : CANManager(canPort, pins, frequency){};
+CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency) : CANManager(canPort, pins, frequency){};
 
 void CANDecoder::readHandler(CAN_message_t msg) {
    switch (msg.id) {

@@ -19,9 +19,10 @@ void setup() {
 
 void loop() {
   candecoder.sendSignal();
-  candecoder.runQueue(50);
+  candecoder.runQueue(50); // 50ms, so 20 sets of messages sent per second
   counter++;
 
+  // print out debug info every second (instead of every 50ms)
   if (counter > 20) {
     counter = 0;
     Serial.println(int8Received);
