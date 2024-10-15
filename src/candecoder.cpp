@@ -1,6 +1,6 @@
 #include "candecoder.h"
 
-#define IS_FIRST_CAN true
+#define IS_FIRST_CAN false
 
 #if IS_FIRST_CAN
 #define RECEIVE_BASE_ID 0x000
@@ -23,21 +23,27 @@ uint16_t int16Received;
 float floatReceived;
 bool boolReceived;
 
+int numMessagesReceived[4] = {0,0,0,0};
+
 CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency /*=DEFAULT_CAN_FREQ*/) : CANManager(canPort, pins, frequency){};
 
-void CANDecoder::readHandler(CAN_data msg) {
+void CANDecoder::readHandler(CAN_message_t msg) {
    switch (msg.id) {
       case (RECEIVE_BASE_ID + 0):
          int8Received = *(int8_t*)msg.buf;
+         numMessagesReceived[0]++;
          break;
       case (RECEIVE_BASE_ID + 1):
          int16Received = *(int16_t*)msg.buf;
+         numMessagesReceived[1]++;
          break;
       case (RECEIVE_BASE_ID + 2):
          floatReceived = *(float*)msg.buf;
+         numMessagesReceived[2]++;
          break;
       case (RECEIVE_BASE_ID + 3):
          boolReceived = *(bool*)msg.buf;
+         numMessagesReceived[3]++;
          break;
    }   
 }

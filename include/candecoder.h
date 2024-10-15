@@ -8,7 +8,7 @@ class CANDecoder : public CANManager {
       /* Reads input message and does any logic handling needed
        * Intended to be implemented by class extension per board
        */
-      void readHandler(CAN_data msg);
+      void readHandler(CAN_message_t msg);
 
       /* Send a message over CAN
        *
