@@ -10,6 +10,7 @@ extern float floatReceived;
 extern bool boolReceived;
 
 extern int numMessagesReceived[7];
+extern float messageReceived[7];
 
 int counter = 0;
 
@@ -26,4 +27,8 @@ void loop() {
     printf("%d | ", numMessagesReceived[i]);
   }
   printf("\n");
+
+  for (int i = 0; i < 7; i++) {
+    printf("%d | ", messageReceived[i]);
+  }
 }
