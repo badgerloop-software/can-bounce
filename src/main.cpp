@@ -31,4 +31,5 @@ void loop() {
   for (int i = 0; i < 7; i++) {
     printf("%d | ", messageReceived[i]);
   }
+  printf("\n");
 }
