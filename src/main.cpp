@@ -28,8 +28,10 @@ void loop() {
   }
   printf("\n");
 
+  printf("boostEnabled | chargeMode | voltage | current | temp | dutycycle | targetVoltage or -1\n");
+
   for (int i = 0; i < 7; i++) {
-    printf("%d | ", messageReceived[i]);
+    printf("%f | ", messageReceived[i]);
   }
   printf("\n");
 }
