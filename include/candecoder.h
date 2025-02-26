@@ -14,3 +14,13 @@ class CANDecoder : public CANManager {
        */ 
       void sendSignal();
 };
+
+typedef struct{
+   bool direction : 1;         // output
+   bool mc_speed_sig : 1;      // input
+   bool eco_mode : 1;          // output
+   bool mcu_mc_on : 1;         // output
+   bool park_brake : 1;        // input
+ } DigitalData;
+ 
+ extern volatile DigitalData digital_data;
