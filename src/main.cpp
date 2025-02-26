@@ -4,13 +4,8 @@
 
 CANDecoder candecoder(CAN1, ALT_2, 250000);
 
-uint8_t int8Received;
-uint16_t int16Received;
-float floatReceived;
-bool boolReceived;
-
-int numMessagesReceived[9] = {0,0,0,0,0,0,0,0,0};
-float messageReceived[9] = {0,0,0,0,0,0,0,0,0};
+extern volatile int numMessagesReceived[9];
+extern volatile float messageReceived[8];
 
 void setup() {
   Serial.begin(115200);

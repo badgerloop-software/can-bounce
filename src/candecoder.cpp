@@ -10,8 +10,8 @@ uint16_t int16Received;
 float floatReceived;
 bool boolReceived;
 
-int numMessagesReceived[9] = {0,0,0,0,0,0,0,0,0};
-float messageReceived[8] = {0,0,0,0,0,0,0,0};
+volatile int numMessagesReceived[9] = {0,0,0,0,0,0,0,0,0};
+volatile float messageReceived[8] = {0,0,0,0,0,0,0,0};
 
 volatile DigitalData digital_data;
 
