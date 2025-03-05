@@ -15,8 +15,9 @@ void setup() {
 void loop() {
   candecoder.sendSignal();
   candecoder.runQueue(50);
+  // printf("num messages: %d\n", counter_messages);
 
-  if (counter >= 100){
+  if (counter >= 20){
     counter = 0;
     for (int i = 0; i < 9; i++) {
       Serial.printf("%d | ", numMessagesReceived[i]);

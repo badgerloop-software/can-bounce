@@ -2,7 +2,8 @@
 #define __CAN_DECODER_H__
 
 #include "canmanager.h"
- 
+
+extern uint8_t counter_messages;
 class CANDecoder : public CANManager {
    public:
    
