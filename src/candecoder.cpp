@@ -10,8 +10,8 @@ uint16_t int16Received;
 float floatReceived;
 bool boolReceived;
 
-volatile int numMessagesReceived[9] = {0,0,0,0,0,0,0,0,0};
-volatile float messageReceived[8] = {0,0,0,0,0,0,0,0};
+volatile int numMessagesReceived[9] = {0,0,1,0,0,0,0,0,0};
+volatile float messageReceived[8] = {0,0,0,0,0,5.5,0,0};
 
 volatile DigitalData digital_data;
 
@@ -19,6 +19,7 @@ CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency) : CAN
 
 void CANDecoder::readHandler(CAN_message_t msg) {
    int offset = msg.id - 0x200; // Update the base ID to 0x200
+   Serial.printf("Message ID: %d\n", msg.id);
    if (offset >= 0 && offset <= 10) { // Adjust the range to match the new IDs
       numMessagesReceived[offset]++;
       switch (offset){
@@ -53,7 +54,9 @@ void CANDecoder::readHandler(CAN_message_t msg) {
          case 7: // digital_data
             //Todo: check if this is correct
             //digital_data = *((DigitalData*)msg.buf);
+            Serial.printf("Digital Data\n");
             memcpy((void *)&digital_data, msg.buf, sizeof(DigitalData));
+            Serial.printf("=======================================================\n");
             break;
          case 10: // brakeLED
             boolReceived = *((bool*)msg.buf);

@@ -1,3 +1,6 @@
+#ifndef __CAN_DECODER_H__
+#define __CAN_DECODER_H__
+
 #include "canmanager.h"
  
 class CANDecoder : public CANManager {
@@ -24,3 +27,8 @@ typedef struct{
  } DigitalData;
  
  extern volatile DigitalData digital_data;
+ 
+ extern volatile int numMessagesReceived[9];
+ extern volatile float messageReceived[8];
+
+#endif
