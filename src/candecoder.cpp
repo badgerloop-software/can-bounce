@@ -21,7 +21,6 @@ CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency) : CAN
 void CANDecoder::readHandler(CAN_message_t msg) {
    counter_messages++;
    int offset = msg.id - 0x200; // Update the base ID to 0x200
-   // Serial.printf("Message ID: %d\n", msg.id);
    if (offset >= 0 && offset <= 10) { // Adjust the range to match the new IDs
       numMessagesReceived[offset]++;
       switch (offset){
@@ -54,12 +53,7 @@ void CANDecoder::readHandler(CAN_message_t msg) {
             messageReceived[offset] = floatReceived;
             break;
          case 7: // digital_data
-            //Todo: check if this is correct
-
-            // digital_data = (DigitalData)msg.buf[0];
-            // Serial.printf("Digital Data\n");
             memcpy((void *)&digital_data, msg.buf, sizeof(DigitalData));
-            // Serial.printf("=======================================================\n");
             break;
          case 10: // brakeLED
             boolReceived = *((bool*)msg.buf);
@@ -73,6 +67,13 @@ void CANDecoder::readHandler(CAN_message_t msg) {
 }
 
 void CANDecoder::sendSignal() {
-   bool forwardAndReverse = rand() % 2;
-   this->sendMessage(0x300, (void*)&forwardAndReverse, sizeof(bool));
+   this->sendMessage(0x200, (void*)&acc_out, sizeof(float));
+   this->sendMessage(0x201, (void*)&regen_brake, sizeof(float));
+   this->sendMessage(0x202, (void*)&lv_12V_telem, sizeof(float));
+   this->sendMessage(0x203, (void*)&lv_5V_telem, sizeof(float));
+   this->sendMessage(0x204, (void*)&lv_5V_current, sizeof(float));
+   this->sendMessage(0x205, (void*)&current_in_telem, sizeof(float));
+   this->sendMessage(0x206, (void*)&brake_pressure_telem, sizeof(float));
+   this->sendMessage(0x207, (void*)&digital_data, sizeof(digital_data));
+   this->sendMessage(0x20A, (void*)&brakeLED, sizeof(bool));
 }
