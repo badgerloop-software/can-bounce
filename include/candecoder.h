@@ -31,6 +31,7 @@ extern volatile DigitalData digital_data;
 
 extern volatile int numMessagesReceived[9];
 extern volatile float messageReceived[8];
+extern bool sendsuccess;
 
 // External volatile declarations for CAN data
 extern volatile float acc_out;

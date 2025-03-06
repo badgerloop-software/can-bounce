@@ -61,6 +61,11 @@ void setup() {
 }
 
 void loop() {
+  if (((int)acc_out)%20 == 0) {
+    printf("counter acc_out: %f\n", acc_out);
+    printf("sendsuccess: %d\n", sendsuccess);
+  }
+  acc_out += 1;
   candecoder.sendSignal();
   candecoder.runQueue(50);
 }
