@@ -3,7 +3,25 @@
 
 #include "canmanager.h"
 
-extern uint8_t counter_messages;
+struct Digital_Data {
+   bool direction_switch : 1;      // input
+   bool left_blink : 1;            // input
+   bool right_blink : 1;           // input
+   bool crz_mode_a : 1;            // input
+   bool crz_set : 1;               // input
+   bool crz_reset : 1;             // input
+   bool horn : 1;                  // input
+ };
+
+extern bool led1;
+extern bool led2;
+extern Digital_Data led1msg;
+#define LED_ID_1 0x300
+#define LED_ID_2 0x400
+
+
+extern uint8_t num_msg_received;
+
 class CANDecoder : public CANManager {
 public:
 
