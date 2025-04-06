@@ -11,7 +11,7 @@
 #define BOOL_VAL true
 #else
 #define RECEIVE_BASE_ID 0x100
-#define SEND_BASE_ID 0x000
+#define SEND_BASE_ID 0x700
 #define INT8_VAL 234
 #define INT16_VAL 57219
 #define FLOAT_VAL 8.6
@@ -30,13 +30,16 @@ int numMessagesReceived[4] = {0,0,0,0};
 CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency) : CANManager(canPort, pins, frequency){};
 
 void CANDecoder::readHandler(CAN_message_t msg) {
+  // printf("msg_received\n");
+  numMessagesReceived[0]++;
   msgID = msg.id;
   msgReceived = *msg.buf;
 }
 
 void CANDecoder::sendSignal() {
    uint8_t test8int = INT8_VAL; 
-   this->sendMessage(SEND_BASE_ID + 0, (void*)&test8int, sizeof(test8int));
+   bool ret = this->sendMessage(SEND_BASE_ID + 0, (void*)&test8int, sizeof(test8int));
+  //  printf("sent message: %d", ret);
 
    // uint16_t test16int = INT16_VAL;
    // this->sendMessage(SEND_BASE_ID + 1, (void*)&test16int, sizeof(test16int));
