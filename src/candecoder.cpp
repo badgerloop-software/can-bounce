@@ -1,20 +1,14 @@
 #include "candecoder.h"
 
-#include <stdlib.h>
-#include <time.h>
-
-#define IS_FIRST_CAN false
-
-uint8_t int8Received;
-uint16_t int16Received;
 float floatReceived;
 bool boolReceived;
 uint8_t counter_messages = 0; 
 
-volatile int numMessagesReceived[9] = {0,0,1,0,0,0,0,0,0};
-volatile float messageReceived[8] = {0,0,0,0,0,5.5,0,0};
+volatile int numMessagesReceived[10] = {0,0,0,0,0,0,0,0,0,0};
+volatile float messageReceived[10] = {0,0,0,0,0,0,0,0,0,0};
 
 volatile DigitalData digital_data;
+volatile Steering_Data steering_data;
 
 CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency) : CANManager(canPort, pins, frequency){};
 
@@ -54,15 +48,14 @@ void CANDecoder::readHandler(CAN_message_t msg) {
             messageReceived[offset] = floatReceived;
             break;
          case 7: // digital_data
-            //Todo: check if this is correct
-
-            // digital_data = (DigitalData)msg.buf[0];
-            // Serial.printf("Digital Data\n");
             memcpy((void *)&digital_data, msg.buf, sizeof(DigitalData));
-            // Serial.printf("=======================================================\n");
             break;
-         case 10: // brakeLED
-            boolReceived = *((bool*)msg.buf);
+         case 8: // mph
+            floatReceived = *((float*)msg.buf);
+            messageReceived[offset] = floatReceived;
+            break;
+         case 9: // acc_in
+            boolReceived = *((float*)msg.buf);
             messageReceived[offset] = boolReceived;
             break;
          default:
@@ -73,6 +66,5 @@ void CANDecoder::readHandler(CAN_message_t msg) {
 }
 
 void CANDecoder::sendSignal() {
-   bool forwardAndReverse = rand() % 2;
-   this->sendMessage(0x300, (void*)&forwardAndReverse, sizeof(bool));
+   this->sendMessage(0x300, (void*)&steering_data, sizeof(Steering_Data));
 }
