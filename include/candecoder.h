@@ -3,7 +3,19 @@
 
 #include "canmanager.h"
 
-extern uint8_t counter_messages;
+struct Steering_Data {
+   bool direction_switch : 1;      // input
+   bool left_blink : 1;            // input
+   bool right_blink : 1;           // input
+   bool crz_mode_a : 1;            // input
+   bool crz_set : 1;               // input
+   bool crz_reset : 1;             // input
+   bool horn : 1;                  // input
+};
+
+extern Steering_Data steering;
+extern float regen_brake;
+
 class CANDecoder : public CANManager {
 public:
 
@@ -18,29 +30,5 @@ public:
       */ 
    void sendSignal();
 };
-
-typedef struct{
-bool direction : 1;         // output
-bool mc_speed_sig : 1;      // input
-bool eco_mode : 1;          // output
-bool mcu_mc_on : 1;         // output
-bool park_brake : 1;        // input
-} DigitalData;
-
-extern volatile DigitalData digital_data;
-
-extern volatile int numMessagesReceived[9];
-extern volatile float messageReceived[8];
-extern bool sendsuccess;
-
-// External volatile declarations for CAN data
-extern volatile float acc_out;
-extern volatile float regen_brake;
-extern volatile float lv_12V_telem;
-extern volatile float lv_5V_telem;
-extern volatile float lv_5V_current;
-extern volatile float current_in_telem;
-extern volatile float brake_pressure_telem;
-extern volatile bool brakeLED;
 
 #endif
