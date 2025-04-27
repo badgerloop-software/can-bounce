@@ -3,7 +3,11 @@
 
 #include "canmanager.h"
 
-struct Digital_Data {
+#define STEERING_ID 0x300
+#define PDC_ID 0x207
+#define BPS_ID 0x100
+
+struct Steering_Data {
    bool direction_switch : 1;      // input
    bool left_blink : 1;            // input
    bool right_blink : 1;           // input
@@ -11,16 +15,22 @@ struct Digital_Data {
    bool crz_set : 1;               // input
    bool crz_reset : 1;             // input
    bool horn : 1;                  // input
- };
-
-extern bool led1;
-extern bool led2;
-extern Digital_Data led1msg;
-#define LED_ID_1 0x300
-#define LED_ID_2 0x400
-
+   bool headlight : 1;             // input
+};
+struct PDC_Data {
+   bool direction : 1;         // output
+   bool eco_mode : 1;          // output
+   bool mc_on : 1;             // input
+   bool park_brake : 1;        // input
+   bool brakeLED : 1;          // derived by state machine
+};
 
 extern uint8_t num_msg_received;
+extern bool sendsuccess;
+
+extern Steering_Data steering;
+extern PDC_Data pdc;
+extern uint8_t bps_fault;
 
 class CANDecoder : public CANManager {
 public:
@@ -36,29 +46,5 @@ public:
       */ 
    void sendSignal();
 };
-
-typedef struct{
-bool direction : 1;         // output
-bool mc_speed_sig : 1;      // input
-bool eco_mode : 1;          // output
-bool mcu_mc_on : 1;         // output
-bool park_brake : 1;        // input
-} DigitalData;
-
-extern volatile DigitalData digital_data;
-
-extern volatile int numMessagesReceived[9];
-extern volatile float messageReceived[8];
-extern bool sendsuccess;
-
-// External volatile declarations for CAN data
-extern volatile float acc_out;
-extern volatile float regen_brake;
-extern volatile float lv_12V_telem;
-extern volatile float lv_5V_telem;
-extern volatile float lv_5V_current;
-extern volatile float current_in_telem;
-extern volatile float brake_pressure_telem;
-extern volatile bool brakeLED;
 
 #endif

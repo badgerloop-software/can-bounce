@@ -17,26 +17,42 @@ void setup() {
 // type message in serial monitor to send CAN message to lighting board
 void loop() {
   if(Serial.available() > 0){
-    msg = Serial.read();
-
-    if (msg == '1') {
-      led1 = !led1; // toggle
-      led1msg.left_blink = led1;
-      
-    } else if (msg == '2') {
-      led2 = !led2; // toggle
+    msg = Serial.read(); // only take the first char
+    while(Serial.available()) {
+      Serial.read();
+    }
+    switch (msg) {
+      case '1':
+        steering.left_blink = !steering.left_blink;
+        break;
+      case '2':
+        steering.right_blink = !steering.right_blink;
+        break;
+      case '3':
+        steering.headlight = !steering.headlight;
+        break;
+      case '4':
+        pdc.brakeLED = !pdc.brakeLED;
+        break;
+      default:
+        bps_fault = (bps_fault == 0)? 1 : 0;
+        break;
     }
   }
-  candecoder.runQueue(50);
+  candecoder.runQueue(1000);
   candecoder.sendSignal();
   counter++;
-  if (counter >=20) {
+  if (counter >=1) {
+    counter = 0;
     printf("\033[2J\033[1;1H");
-    printf("LED 1: %s\n", led1? "on" : "off");
-    printf("LED 2: %s\n", led2? "on" : "off");
+    printf("1) Left Blink: %s\n", steering.left_blink? "on" : "off");
+    printf("2) Right Blink: %s\n", steering.right_blink? "on" : "off");
+    printf("3) Headlight: %s\n", steering.headlight? "on" : "off");
+    printf("4) Brake Light: %s\n", pdc.brakeLED? "on" : "off");
+    printf("5) BPS Fault: %s\n", bps_fault? "on" : "off");
     printf("sendsuccess: %s\n", sendsuccess? "yes" : "no");
     printf("messages received: %d\n", num_msg_received);
-    counter = 0;
+    printf("steering: %x\n", steering);
   }
 
 }
