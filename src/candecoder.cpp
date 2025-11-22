@@ -24,6 +24,7 @@ void CANDecoder::readHandler(CAN_message_t msg) {
 }
 
 void CANDecoder::sendSignal() {
-   float stuff = 1.23;
-   send_success = this->sendMessage(0x200, (void*)&stuff, sizeof(float));
+   float r = ((float)rand() / RAND_MAX) * 100.0f;
+   send_success = this->sendMessage(0x201, (void*)&r, sizeof(float));
+   printf("Random float: %f\n", r);
 }
