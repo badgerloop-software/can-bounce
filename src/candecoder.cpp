@@ -13,7 +13,7 @@ void CANDecoder::readHandler(CAN_message_t msg) {
    messages_read++;
    switch (msg.id) {
       case 0x300:
-         steering = *(Steering_Data*)msg.buf;
+         memcpy((void *)&steering, msg.buf, sizeof(Steering_Data));
          break;
       case 0x301:
          regen_brake = *(float*)msg.buf;
