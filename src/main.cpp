@@ -1,18 +1,19 @@
 #include <Arduino.h>
+#include "STM32_CAN.h"
+#include "candecoder.h"
 
-// put function declarations here:
-int myFunction(int, int);
+//Define CAN bus object through CANDecoder class
+CANDecoder candecoder(CAN1, ALT_2, 250000);
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  Serial.begin(115200);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
+  //Send data over CAN
+  candecoder.sendSignal();
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+  //Receive data over CAN every 50ms
+  candecoder.runQueue(50);
+  // printf("num messages: %d\n", counter_messages);
 }
