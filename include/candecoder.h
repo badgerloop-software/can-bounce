@@ -44,7 +44,7 @@ struct DigitalData {
  
  extern volatile DigitalData digital_data;
  
- extern volatile int numMessagesReceived[10];
- extern volatile float messageReceived[10];
+ extern volatile int numMessagesReceived[6];
+ extern volatile float messageReceived[6];
 
 #endif
