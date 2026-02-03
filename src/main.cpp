@@ -66,10 +66,6 @@ void loop() {
 
     // clear the screen
     printf("\e[1;1H\e[2J");
-    printf("Simulating RPM: %d\n", simRPM);
-    printf("Press i to increment, d to decrement\n");
-
-    printf("forwardReverse (press 's' to toggle): %s\n", steering_data.direction_switch? "REV": "FWD");
     
     // for (int i = 0; i < 9; i++) {
     //   printf("%d | ", numMessagesReceived[i]);
