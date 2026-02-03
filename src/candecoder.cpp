@@ -4,8 +4,8 @@ float floatReceived;
 bool boolReceived;
 uint8_t counter_messages = 0; 
 
-volatile int numMessagesReceived[10] = {0,0,0,0,0,0,0,0,0,0};
-volatile float messageReceived[10] = {0,0,0,0,0,0,0,0,0,0};
+volatile int numMessagesReceived[6] = {0,0,0,0,0,0};
+volatile float messageReceived[6] = {0,0,0,0,0,0};
 
 volatile DigitalData digital_data;
 volatile Steering_Data steering_data;
@@ -14,49 +14,33 @@ CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency) : CAN
 
 void CANDecoder::readHandler(CAN_message_t msg) {
    counter_messages++;
-   int offset = msg.id - 0x200; // Update the base ID to 0x200
-   // Serial.printf("Message ID: %d\n", msg.id);
-   if (offset >= 0 && offset <= 10) { // Adjust the range to match the new IDs
+   int offset = msg.id - 0x500; // Update the base ID to 0x500
+   Serial.printf("Message ID: %d\n", msg.id);
+   if (offset >= 0 && offset <= 5) { // Adjust the range to match the new IDs
       numMessagesReceived[offset]++;
       switch (offset){
-         case 0: // acc_out
+         case 0: // i_12
             floatReceived = *((float*)msg.buf);
             messageReceived[offset] = floatReceived;
             break;
-         case 1: // regen_brake
+         case 1: // v_12v
             floatReceived = *((float*)msg.buf);
             messageReceived[offset] = floatReceived;
             break;
-         case 2: // lv_12V_telem
+         case 2: // supp_i
             floatReceived = *((float*)msg.buf);
             messageReceived[offset] = floatReceived;
             break;
-         case 3: // lv_5V_telem
+         case 3: // batt_i
             floatReceived = *((float*)msg.buf);
             messageReceived[offset] = floatReceived;
             break;
-         case 4: // lv_5V_current
+         case 4: // supp_v
             floatReceived = *((float*)msg.buf);
             messageReceived[offset] = floatReceived;
             break;
-         case 5: // current_in_telem
-            floatReceived = *((float*)msg.buf);
-            messageReceived[offset] = floatReceived;
-            break;
-         case 6: // brake_pressure_telem
-            floatReceived = *((float*)msg.buf);
-            messageReceived[offset] = floatReceived;
-            break;
-         case 7: // digital_data
+         case 5: // digital_data
             memcpy((void *)&digital_data, msg.buf, sizeof(DigitalData));
-            break;
-         case 8: // mph
-            floatReceived = *((float*)msg.buf);
-            messageReceived[offset] = floatReceived;
-            break;
-         case 9: // acc_in
-            boolReceived = *((float*)msg.buf);
-            messageReceived[offset] = boolReceived;
             break;
          default:
             // Handle unexpected offsets if necessary

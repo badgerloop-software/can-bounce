@@ -37,24 +37,24 @@ void loop() {
       Serial.read(); // clear buffer
     }
 
-    switch (buf) {
-      case 'i':
-        simRPM += STEP_SIZE;
-        break;
-      case 'd':
-        simRPM -= STEP_SIZE;
-        break;
-      default: 
-        steering_data.direction_switch = !steering_data.direction_switch;
-    }
+    // switch (buf) {
+    //   case 'i':
+    //     simRPM += STEP_SIZE;
+    //     break;
+    //   case 'd':
+    //     simRPM -= STEP_SIZE;
+    //     break;
+    //   default: 
+    //     steering_data.direction_switch = !steering_data.direction_switch;
+    // }
 
-    if (simRPM > 0) {
-        frequencyHz = (48 * simRPM) / 60; // 48 pulses per rotation * RPM, divided by 60 seconds to get frequency
-        tim->setPWM(channel, PWM_PIN, frequencyHz, dutyCycle);
-    } else {
-        tim->setPWM(channel, PWM_PIN, 1, 0);
-        simRPM = 0;
-    }
+    // if (simRPM > 0) {
+    //     frequencyHz = (48 * simRPM) / 60; // 48 pulses per rotation * RPM, divided by 60 seconds to get frequency
+    //     tim->setPWM(channel, PWM_PIN, frequencyHz, dutyCycle);
+    // } else {
+    //     tim->setPWM(channel, PWM_PIN, 1, 0);
+    //     simRPM = 0;
+    // }
   }
 
   candecoder.sendSignal();
@@ -76,21 +76,19 @@ void loop() {
     // }
     // printf("\n");
 
-    printf("acc_out: %f\n", messageReceived[0]);
-    printf("regen_brake: %f\n", messageReceived[1]);
-    printf("lv_12V_telem: %f\n", messageReceived[2]);
-    printf("lv_5V_telem: %f\n", messageReceived[3]);
-    printf("lv_5V_current: %f\n", messageReceived[4]);
-    printf("current_in_telem: %f\n", messageReceived[5]);
-    printf("brake_pressure_telem: %f\n", messageReceived[6]);
-    printf("mph: %f\n", messageReceived[8]);
-    printf("acc_in: %f\n", messageReceived[9]);
+    printf("i_12v: %f\n", messageReceived[0]);
+    printf("v_12v: %f\n", messageReceived[1]);
+    printf("supp_i: %f\n", messageReceived[2]);
+    printf("batt_i: %f\n", messageReceived[3]);
+    printf("supp_v: %f\n", messageReceived[4]);
     printf("\n");
-    printf("Direction: %d\n", digital_data.direction);
-    printf("Eco Mode: %d\n", digital_data.eco_mode);
-    printf("MCU MC On: %d\n", digital_data.mc_on);
-    printf("Park Brake: %d\n", digital_data.park_brake);
-    printf("Brake LED: %d\n", digital_data.brakeLED);
+    printf("estop_mcu: %d\n", digital_data.estop_mcu);
+    printf("batt_pos_cont: %d\n", digital_data.batt_pos_cont);
+    printf("ppc1_supp_invalid: %d\n", digital_data.ppc1_supp_invalid);
+    printf("ppc1_dcdc_invalid: %d\n", digital_data.ppc1_dcdc_invalid);
+    printf("mppt_cont_mcu: %d\n", digital_data.mppt_cont_mcu);
+    printf("mc_cont_mcu: %d\n", digital_data.mc_cont_mcu);
+    printf("mcu_batt_en: %d\n", digital_data.mcu_batt_en);
   }
   counter++;
 }

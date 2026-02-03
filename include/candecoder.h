@@ -32,11 +32,13 @@ struct Steering_Data {
 extern volatile Steering_Data steering_data;
 
 struct DigitalData {
-   bool direction : 1;         // output
-   bool eco_mode : 1;          // output
-   bool mc_on : 1;             // input
-   bool park_brake : 1;        // input
-   bool brakeLED : 1;          // derived by state machine
+   bool estop_mcu : 1;         // input
+   bool batt_pos_cont : 1;          // input
+   bool ppc1_supp_invalid : 1;             // input
+   bool ppc1_dcdc_invalid : 1;        // input
+   bool mppt_cont_mcu : 1;          // input
+   bool mc_cont_mcu : 1;          // input
+   bool mcu_batt_en : 1;          // input
 };
 
  
