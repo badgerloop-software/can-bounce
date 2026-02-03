@@ -15,7 +15,7 @@ CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency) : CAN
 void CANDecoder::readHandler(CAN_message_t msg) {
    counter_messages++;
    int offset = msg.id - 0x500; // Update the base ID to 0x500
-   Serial.printf("Message ID: %d\n", msg.id);
+   //Serial.printf("Message ID: %d\n", msg.id);
    if (offset >= 0 && offset <= 5) { // Adjust the range to match the new IDs
       numMessagesReceived[offset]++;
       switch (offset){
@@ -50,5 +50,5 @@ void CANDecoder::readHandler(CAN_message_t msg) {
 }
 
 void CANDecoder::sendSignal() {
-   this->sendMessage(0x300, (void*)&steering_data, sizeof(Steering_Data));
+   this->sendMessage(0x505, (void*)&digital_data, sizeof(digital_data));
 }
