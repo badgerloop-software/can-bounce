@@ -1,5 +1,9 @@
 #include "candecoder.h"
 
+// TODO: PDC firmware must be updated to read mc_on and park_brake from
+//       this CAN instead of from physical switch inputs,
+//       so the test board can control them over CAN, mc_on will not be on can
+
 float floatReceived;
 bool boolReceived;
 uint8_t counter_messages = 0; 

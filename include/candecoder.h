@@ -19,6 +19,7 @@ class CANDecoder : public CANManager {
       void sendSignal();
 };
 
+
 struct Steering_Data {
    bool direction_switch : 1;      // input
    bool left_blink : 1;            // input
@@ -27,6 +28,8 @@ struct Steering_Data {
    bool crz_set : 1;               // input
    bool crz_reset : 1;             // input
    bool horn : 1;                  // input
+   bool mc_on : 1;                 // input - motor controller on/off
+   bool park_brake : 1;            // input - park brake engaged/disengaged
 };
 
 extern volatile Steering_Data steering_data;
