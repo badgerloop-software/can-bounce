@@ -516,8 +516,12 @@ void loopManualMode(char input) {
 // Random CAN echo mode
 // Passive listener — just displays whatever the PDC sends over CAN.
 // Use with PDC DEBUG_TECHNIQUE == 1 (PDC randomizes its own outputs).
-#define RANDOM_REFRESH_INTERVAL 500 // ms between display refreshes
+// NOTE: the display refresh can be noisy (thanks to fast updates), so we
+// refresh at a slower rate to make it readable.
+#define RANDOM_REFRESH_INTERVAL 2000 // ms between display refreshes
 unsigned long lastRandomTime = 0;
+// Only print the random-mode banner on the first refresh to avoid repeating it.
+bool randomModeFirstDisplay = true;
 
 void loopRandomMode(char input) {
   if (input == 'q' || input == 'Q') {
@@ -527,11 +531,17 @@ void loopRandomMode(char input) {
   }
 
   unsigned long now = millis();
-  if (input == 'r' || now - lastRandomTime >= RANDOM_REFRESH_INTERVAL) {
+  bool shouldRefresh = randomModeFirstDisplay || input == 'r' ||
+                       now - lastRandomTime >= RANDOM_REFRESH_INTERVAL;
+  if (shouldRefresh) {
     lastRandomTime = now;
+    bool printHeader = randomModeFirstDisplay || input == 'r';
+    randomModeFirstDisplay = false;
 
     printf("\e[1;1H\e[2J");
-    printf("RANDOM CAN ECHO MODE  (r = refresh, q = quit)\n\n");
+    if (printHeader) {
+      printf("RANDOM CAN ECHO MODE  (r = refresh, q = quit)\n\n");
+    }
     printStatus();
   }
 }
@@ -545,6 +555,12 @@ void loop() {
     input = Serial.read();
     while (Serial.available())
       Serial.read();
+
+    // Some tools send single-byte commands (0x01/0x02/0x03).
+    // Normalize them to their ASCII digit equivalents so the menu works.
+    if (input >= 1 && input <= 3) {
+      input = '0' + input;
+    }
   }
 
   switch (currentMode) {
@@ -582,6 +598,7 @@ void loop() {
       setRPM(0);
       clearSteering();
       lastRandomTime = 0; // trigger immediate send
+      randomModeFirstDisplay = true;
       printf("\e[1;1H\e[2J");
       printf("Starting random CAN echo mode...\n");
     }
