@@ -32,6 +32,7 @@ int testsFailed = 0;
 int testNum = 0;
 bool verifying = false;
 bool prompted = false;
+bool waitingForAck = false; // wait for user to read results before next test
 unsigned long settleStart = 0;
 
 // manual mode state
@@ -347,6 +348,7 @@ void loopTestMode(char input) {
     testNum = NUM_TESTS;
     verifying = false;
     prompted = false;
+    waitingForAck = false;
   }
 
   if (input == 'r' || input == 'R') {
@@ -375,6 +377,7 @@ void loopTestMode(char input) {
       testNum = 0;
       verifying = false;
       prompted = false;
+      waitingForAck = false;
       setRPM(0);
       simAccIn = 0.0f;
       clearSteering();
@@ -386,7 +389,17 @@ void loopTestMode(char input) {
     if (input == 'q' || input == 'Q') {
       currentMode = MODE_SELECT;
       prompted = false;
+      waitingForAck = false;
       showModeMenu();
+    }
+    return;
+  }
+
+  // wait for user to acknowledge test results before showing next prompt
+  if (waitingForAck) {
+    if (input == 'n') {
+      waitingForAck = false;
+      prompted = false; // now allow showPrompt to run for the next test
     }
     return;
   }
@@ -407,9 +420,11 @@ void loopTestMode(char input) {
       verifyOutputs();
       testNum++;
       verifying = false;
-      prompted = false;
+      waitingForAck = true; // hold on results screen until user presses 'n'
       if (testNum < NUM_TESTS)
         printf("\nPress 'n' for next test...\n");
+      else
+        printf("\nPress 'n' to see summary...\n");
     }
   }
 }
