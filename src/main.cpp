@@ -141,7 +141,7 @@ void showPrompt() {
     break;
   case 1:
     printf("Test 2/%d: OFF -> Park\n", NUM_TESTS);
-    printf("Auto: mc_on = ON, acc_in = 5.0\n");
+    printf("Auto: mc_on = ON, acc_in = 0\n");
     printf("Expected: mc_on = 1, acc_out = 0\n");
     break;
   case 2:
@@ -216,7 +216,7 @@ void applyInputs() {
     break;
   case 1: // OFF -> Park: turn mc_on on
     steering_data.mc_on = true;
-    simAccIn = 5.0f;
+    simAccIn = 0.0f;
     break;
   case 2: // Park -> Idle: release park brake
     steering_data.park_brake = false;
