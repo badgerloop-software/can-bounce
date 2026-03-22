@@ -19,37 +19,6 @@ void loop() {
     while(Serial.available()) {
       Serial.read();
     }
-    switch (msg) {
-      case '1':
-        steering.left_blink = !steering.left_blink;
-        break;
-      case '2':
-        steering.right_blink = !steering.right_blink;
-        break;
-      case '3':
-        steering.headlight = !steering.headlight;
-        break;
-      case '4':
-        pdc.brakeLED = !pdc.brakeLED;
-        break;
-      case '5':
-        bps_fault = (bps_fault == 0)? 1 : 0;
-        break;
-      case '6':
-        // Toggle hazards by setting both blinkers
-        if (steering.left_blink && steering.right_blink) {
-          // Turn off hazards
-          steering.left_blink = 0;
-          steering.right_blink = 0;
-        } else {
-          // Turn on hazards
-          steering.left_blink = 1;
-          steering.right_blink = 1;
-        }
-        break;
-      default:
-        break;
-    }
   }
   candecoder.runQueue(1000);
   candecoder.sendSignal();
@@ -57,14 +26,26 @@ void loop() {
   if (counter >= 1) {
     counter = 0;
     printf("\033[2J\033[1;1H");
-    printf("1) Left Blink: %s\n", steering.left_blink? "on" : "off");
-    printf("2) Right Blink: %s\n", steering.right_blink? "on" : "off");
-    printf("3) Headlight: %s\n", steering.headlight? "on" : "off");
-    printf("4) Brake Light: %s\n", pdc.brakeLED? "on" : "off");
-    printf("5) BPS Fault: %s\n", bps_fault? "on" : "off");
-    printf("6) Hazards: %s\n", hazards.hazards? "on" : "off");
-    printf("sendsuccess: %s\n", sendsuccess? "yes" : "no");
-    printf("messages received: %d\n", num_msg_received);
-    printf("steering raw: 0x%02X\n", steering.pack());
+    printf("PDC");
+    printf("Direction: %s\n", pdc.direction? "reverse" : "forward");
+    printf("MC Speed Sig: %s\n", pdc.mc_speed_sig? "on" : "off");
+    printf("Eco Mode: %s\n", pdc.eco_mode? "on" : "off");
+    printf("MC On: %s\n", pdc.mc_on? "on" : "off");
+    printf("Park Brake: %s\n", pdc.park_brake? "engaged" : "released");
+    printf("Brake LED: %s\n", pdc.brakeLED? "on" : "off");
+
+    printf("\n\nSteering\n");
+    printf("Direction Switch: %s\n", steering.direction_switch? "on" : "off");
+    printf("Horn: %s\n", steering.horn? "on" : "off");
+    printf("Cruise Mode A: %s\n", steering.crz_mode_a? "on" : "off");
+    printf("Cruise Set: %s\n", steering.crz_set? "on" : "off");
+    printf("Cruise Reset: %s\n", steering.crz_reset? "on" : "off");
+    printf("Headlight: %s\n", steering.headlight? "on" : "off");
+    printf("Left Blinker: %s\n", steering.left_blink? "on" : "off");
+    printf("Right Blinker: %s\n", steering.right_blink? "on" : "off");
+    
+    printf("\n\nHazards: %s\n", hazards.hazards? "on" : "off");
+
+    printf("\n\nBMS Fault: %s\n", bms_fault? "present" : "none");
   }
 }
