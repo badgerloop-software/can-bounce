@@ -49,6 +49,7 @@ struct DigitalData {
 extern volatile DigitalData digital_data;
 
 extern volatile float simAccIn;
+extern int16_t simRPM;
 
 extern volatile int numMessagesReceived[10];
 extern volatile float messageReceived[10];
