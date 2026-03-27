@@ -13,7 +13,7 @@ volatile Steering_Data steering_data;
 volatile float testAccel     = 0.0f;
 volatile float testRegen     = 0.0f;
 volatile bool  testEco       = false;
-volatile bool  testDirection = false;
+volatile bool  testDirection = true;
 volatile bool  testMode      = false;
 
 CANDecoder::CANDecoder(CAN_TypeDef* canPort, CAN_PINS pins, int frequency)

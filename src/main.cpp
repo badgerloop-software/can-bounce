@@ -18,7 +18,7 @@ void printMenu() {
     printf("Accel:      %5.1f%%\n", (double)testAccel);
     printf("Regen:      %5.1f%%\n", (double)testRegen);
     printf("Eco:        %s\n",       testEco       ? "ON"  : "OFF");
-    printf("Direction:  %s\n",       testDirection ? "REV" : "FWD");
+    printf("Direction:  %s\n",       testDirection ? "FWD" : "REV");
     printf("-----------------------------------\n");
     printf("PDC feedback:\n");
     printf("  acc_out:         %f\n", messageReceived[0]);
