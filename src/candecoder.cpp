@@ -76,8 +76,4 @@ void CANDecoder::sendSignal() {
   this->sendMessage(0x300, (void *)&steering_data, sizeof(Steering_Data));
   this->sendMessage(0x209, (void *)&simAccIn,
                     sizeof(float)); // simulate acceleration pedal
-  // Send simulated RPM as a float so the PDC can use it in TEST_MODE
-  // (no physical PWM wire needed during bench testing)
-  float rpmFloat = (float)simRPM;
-  this->sendMessage(0x20A, (void *)&rpmFloat, sizeof(float));
 }
