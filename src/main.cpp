@@ -107,7 +107,7 @@ void printManualHelp() {
   printf("c = crz_mode_a   z = crz_set   x = crz_reset   h = horn\n");
   printf("m = mc_on         p = park_brake\n");
   printf("i = RPM +%d   d = RPM -%d   0 = stop RPM\n", RPM_STEP, RPM_STEP);
-  printf("w = acc +0.5  s = acc -0.5   a = STOP acc\n");
+  printf("w = acc +0.1  s = acc -0.1   a = STOP acc\n");
   printf("r = refresh   q = back to menu\n");
 }
 
@@ -488,11 +488,11 @@ void loopManualMode(char input) {
     changed = true;
     break;
   case 'w':
-    simAccIn += 0.5f;
+    simAccIn += 0.1f;
     changed = true;
     break;
   case 's':
-    simAccIn -= 0.5f;
+    simAccIn -= 0.1f;
     if (simAccIn < 0)
       simAccIn = 0;
     changed = true;
