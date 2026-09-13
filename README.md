@@ -1,11 +1,12 @@
-This repository is used to flash code on the CAN test board to validate data sent to the CAN bus. 
+# sc2.5-tutorial branch
 
-The main branch should be up-to-date with the latest template code to get you guys started with writing the tests. 
+Flash this to the F767 on the CAN test board. Used with the sc2.5-tutorial L432 lab.
 
-Getting Started:
+Serial 115200, press `1` to toggle the LED command on ID `0x600`.
 
-1. To checkout a new branch open the terminal, `cd` into the `can-bounce` repository. 
+TODOs are in `src/candecoder.cpp` and `src/main.cpp`. See the sc2.5-tutorial README for wiring.
 
-2. While naming the branches try to follow thhe conventions. For eg. for a board's main CAN test, name it `companion_{board_name}`. Once you are in the `can-bounce` repository: To create and load into a new branch use `git checkout -b ____________` (where "`__________`" is will be the name your new branch). To load an existing branch, use `git checkout -b ____________` (where "`__________`" is will be the name the existing branch).
-
-3. After you are done with the tests, push your branch with `git push origin __________` (where `____________` is your branch name)
+```bash
+git submodule update --init --recursive
+pio run -e nucleo_f767zi -t upload
+```
