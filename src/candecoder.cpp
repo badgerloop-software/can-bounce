@@ -1,4 +1,5 @@
 #include "candecoder.h"
+#include "canmanager.h"
 
 bool g_led_on = false;
 
@@ -10,5 +11,5 @@ void CANDecoder::readHandler(CAN_message_t msg) {
 }
 
 void CANDecoder::sendSignal() {
-    // TODO: send g_led_on on CAN_ID_LED
+    sendMessage(CAN_ID_LED, g_led_on, sizeof(g_led_on), 1);
 }

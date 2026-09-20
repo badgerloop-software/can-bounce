@@ -30,6 +30,7 @@ void loop() {
     }
 
     // TODO: send the LED command over CAN
+    candecoder.sendSignal();
 
     candecoder.runQueue(50);
 }
