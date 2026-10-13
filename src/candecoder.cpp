@@ -11,4 +11,6 @@ void CANDecoder::readHandler(CAN_message_t msg) {
 
 void CANDecoder::sendSignal() {
     // TODO: send g_led_on on CAN_ID_LED
+    uint8_t data = g_led_on ? 1 : 0;
+    sendMessage(CAN_ID_LED, &data, sizeof(data));
 }

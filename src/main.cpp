@@ -1,14 +1,14 @@
 #include <Arduino.h>
 #include "STM32_CAN.h"
-#include "candecoder.h"
+#include "candecoder.h" 
 
 CANDecoder candecoder(CAN1, ALT_2, 250000);
 
 static void redraw() {
-    printf("\033[2J\033[1;1H");
-    printf("sc2.5-tutorial can-bounce\n");
-    printf("1 = toggle LED cmd\n");
-    printf("LED cmd: %s\n", g_led_on ? "ON" : "off");
+    Serial.printf("\033[2J\033[1;1H");
+    Serial.printf("sc2.5-tutorial can-bounce\n");
+    Serial.printf("1 = toggle LED cmd\n");
+    Serial.printf("LED cmd: %s\n", g_led_on ? "ON" : "off");
 }
 
 void setup() {
@@ -30,6 +30,7 @@ void loop() {
     }
 
     // TODO: send the LED command over CAN
+    candecoder.sendSignal();
 
     candecoder.runQueue(50);
 }
