@@ -1,3 +1,6 @@
 [submodule "embedded-pio"]
 	path = embedded-pio
-	url = git@github.com:badgerloop-software/embedded-pio.git
+	url = ../embedded-pio.git
+[submodule "boards"]
+	path = boards
+	url = ../zephyr-bsp.git
