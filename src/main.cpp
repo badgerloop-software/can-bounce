@@ -8,7 +8,7 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
 static const struct device * const canDev = DEVICE_DT_GET(DT_CHOSEN(zephyr_canbus));
 
-static const uint8_t UPDATE_ID = 0xAA;
+static const uint32_t UPDATE_ID = 0xAA;
 static const uint32_t CAN_IDS[] = {EXAMPLE_ID};
 
 int main(void) {
